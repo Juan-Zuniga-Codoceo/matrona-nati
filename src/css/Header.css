@@ -1,0 +1,33 @@
+.header {
+    background-color: #FFD1DC;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .header-logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .header-logo img {
+    width: 50px;
+    margin-right: 10px;
+  }
+  
+  .header-title {
+    font-size: 1.5rem;
+    color: #4A0E4E;
+  }
+  
+  .header-nav ul {
+    display: flex;
+    list-style: none;
+    gap: 1rem;
+  }
+  
+  .header-nav a {
+    color: #4A0E4E;
+    text-decoration: none;
+  }
