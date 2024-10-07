@@ -1,5 +1,4 @@
 import React from 'react';
-import { User, Heart, Flower, Stethoscope } from 'lucide-react';
 import '../css/Info.css';
 
 const IconWithCircle = ({ Icon }) => (
@@ -22,12 +21,6 @@ const Info = () => (
           proactiva y creativa, buscando siempre las mejores soluciones a los desafíos que se presentan. 
           Tengo convicciones éticas y principios y valores que guían mi actuar profesional y personal.
         </p>
-      </div>
-      <div className="info-icons">
-        <IconWithCircle Icon={User} />
-        <IconWithCircle Icon={Stethoscope} />
-        <IconWithCircle Icon={Flower} />
-        <IconWithCircle Icon={Heart} />
       </div>
     </div>
   </section>
