@@ -1,15 +1,9 @@
 import React from 'react';
 import '../css/Info.css';
 
-const IconWithCircle = ({ Icon }) => (
-  <div className="icon-circle">
-    <Icon size={50} />
-  </div>
-);
-
 const Info = () => (
   <section id="info" className="info-section">
-    <h2 className="info-title">Sobre Matrona Natalia</h2>
+    <h2 className="info-title">Sobre Matrona Naty</h2>
     <div className="info-content">
       <div className="info-text">
         <p className="info-paragraph">

@@ -1,25 +1,116 @@
-import React from 'react';
-import '../css/Contact.css'; // Make sure this file exists in the same directory as your Contact component
+import React, { useState } from 'react';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+import '../css/Contact.css';  // Corregido: Asegúrate de que este archivo exista
 
-const Contact = () => (
-  <section id="contact" className="contact-section">
-    <h2 className="contact-title">Contacto</h2>
-    <form className="contact-form">
-      <div className="form-group">
-        <label htmlFor="name" className="form-label">Nombre:</label>
-        <input type="text" id="name" name="name" required className="form-input" />
+const Contact = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [selectedTime, setSelectedTime] = useState(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: ''
+  });
+
+  const handleDateChange = (newDate) => {
+    setDate(newDate);
+    setSelectedTime(null);
+  };
+
+  const handleTimeSelect = (time) => {
+    setSelectedTime(time);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevData => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Cita agendada:', { date, time: selectedTime, ...formData });
+    setShowModal(false);
+  };
+
+  const toggleModal = () => {
+    console.log('Toggling modal. Current state:', !showModal);  // Depuración
+    setShowModal(!showModal);
+  };
+
+  console.log('Rendering Contact component. showModal:', showModal);  // Depuración
+
+  return (
+    <section className="contact-section">
+      <div className="contact-container">
+        <div className="calendar-container">
+          <h2>Agenda tu hora</h2>
+          <Calendar onChange={handleDateChange} value={date} />
+          <button className="schedule-button" onClick={toggleModal}>Agendar Hora</button>
+        </div>
+        <div className="form-container">
+          <h2>Contáctanos</h2>
+          <form>
+            <input type="text" placeholder="Nombre" required />
+            <input type="email" placeholder="Email" required />
+            <textarea placeholder="Mensaje" required></textarea>
+            <button type="submit">Enviar</button>
+          </form>
+        </div>
       </div>
-      <div className="form-group">
-        <label htmlFor="email" className="form-label">Email:</label>
-        <input type="email" id="email" name="email" required className="form-input" />
-      </div>
-      <div className="form-group">
-        <label htmlFor="message" className="form-label">Mensaje:</label>
-        <textarea id="message" name="message" required className="form-textarea"></textarea>
-      </div>
-      <button type="submit" className="submit-button">Enviar</button>
-    </form>
-  </section>
-);
+
+      {showModal && (
+        <div className="modal-overlay" onClick={toggleModal}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <button className="close-button" onClick={toggleModal}>&times;</button>
+            <h2>Agendar Cita</h2>
+            <Calendar onChange={handleDateChange} value={date} className="modal-calendar" />
+            <div className="time-slots">
+              {['09:00', '10:00', '11:00', '12:00', '14:00', '15:00', '16:00', '17:00'].map(time => (
+                <button 
+                  key={time} 
+                  onClick={() => handleTimeSelect(time)}
+                  className={selectedTime === time ? 'selected' : ''}
+                >
+                  {time}
+                </button>
+              ))}
+            </div>
+            <form onSubmit={handleSubmit} className="modal-form">
+              <input 
+                type="text" 
+                name="name" 
+                placeholder="Nombre" 
+                value={formData.name} 
+                onChange={handleInputChange} 
+                required 
+              />
+              <input 
+                type="email" 
+                name="email" 
+                placeholder="Email" 
+                value={formData.email} 
+                onChange={handleInputChange} 
+                required 
+              />
+              <input 
+                type="tel" 
+                name="phone" 
+                placeholder="Teléfono" 
+                value={formData.phone} 
+                onChange={handleInputChange} 
+                required 
+              />
+              <button type="submit" disabled={!selectedTime}>Pagar y Agendar</button>
+            </form>
+          </div>
+        </div>
+      )}
+    </section>
+  );
+};
 
 export { Contact };
