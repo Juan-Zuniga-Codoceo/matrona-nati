@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
+import { useSpring, animated } from 'react-spring';
 import 'react-calendar/dist/Calendar.css';
-import '../css/Contact.css';  // Corregido: Asegúrate de que este archivo exista
+import '../css/Contact.css';
 
 const Contact = () => {
   const [showModal, setShowModal] = useState(false);
@@ -11,6 +12,12 @@ const Contact = () => {
     name: '',
     email: '',
     phone: ''
+  });
+
+  const modalAnimation = useSpring({
+    opacity: showModal ? 1 : 0,
+    transform: showModal ? 'translateY(0)' : 'translateY(-50px)',
+    config: { mass: 1, tension: 280, friction: 60 }
   });
 
   const handleDateChange = (newDate) => {
@@ -37,23 +44,20 @@ const Contact = () => {
   };
 
   const toggleModal = () => {
-    console.log('Toggling modal. Current state:', !showModal);  // Depuración
     setShowModal(!showModal);
   };
-
-  console.log('Rendering Contact component. showModal:', showModal);  // Depuración
 
   return (
     <section className="contact-section">
       <div className="contact-container">
         <div className="calendar-container">
           <h2>Agenda tu hora</h2>
-          <Calendar onChange={handleDateChange} value={date} />
+          <Calendar onChange={handleDateChange} value={date} className="main-calendar" />
           <button className="schedule-button" onClick={toggleModal}>Agendar Hora</button>
         </div>
         <div className="form-container">
           <h2>Contáctanos</h2>
-          <form>
+          <form className="contact-form">
             <input type="text" placeholder="Nombre" required />
             <input type="email" placeholder="Email" required />
             <textarea placeholder="Mensaje" required></textarea>
@@ -64,7 +68,7 @@ const Contact = () => {
 
       {showModal && (
         <div className="modal-overlay" onClick={toggleModal}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
+          <animated.div className="modal-content" onClick={e => e.stopPropagation()} style={modalAnimation}>
             <button className="close-button" onClick={toggleModal}>&times;</button>
             <h2>Agendar Cita</h2>
             <Calendar onChange={handleDateChange} value={date} className="modal-calendar" />
@@ -73,7 +77,7 @@ const Contact = () => {
                 <button 
                   key={time} 
                   onClick={() => handleTimeSelect(time)}
-                  className={selectedTime === time ? 'selected' : ''}
+                  className={`time-slot ${selectedTime === time ? 'selected' : ''}`}
                 >
                   {time}
                 </button>
@@ -106,7 +110,7 @@ const Contact = () => {
               />
               <button type="submit" disabled={!selectedTime}>Pagar y Agendar</button>
             </form>
-          </div>
+          </animated.div>
         </div>
       )}
     </section>

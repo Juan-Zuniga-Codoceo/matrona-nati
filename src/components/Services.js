@@ -1,95 +1,134 @@
-import React, { useState } from 'react';
-import { 
-  Baby, 
-  HeartPulse, 
-  Scroll, 
+import React, { useState } from "react";
+import { useSpring, animated } from "react-spring";
+import { useInView } from "react-intersection-observer";
+import {
+  Baby,
+  Scroll,
   Stethoscope,
-  Milk,
-  Calendar
-} from 'lucide-react';
-import '../css/Services.css';
+  HeartHandshake,
+  BookHeart,
+  Droplets,
+  Flower,
+  Calendar,
+} from "lucide-react";
+import "../css/Services.css";
 
-const Card = ({ children }) => (
-  <div className="card">
-    {children}
-  </div>
-);
+const AnimatedIcon = ({ children, index }) => {
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  const animation = useSpring({
+    opacity: inView ? 1 : 0,
+    transform: inView ? "translateY(0)" : "translateY(50px)",
+    delay: index * 100,
+  });
+
+  return (
+    <animated.div ref={ref} style={animation}>
+      {children}
+    </animated.div>
+  );
+};
+
+const Card = ({ children }) => <div className="card">{children}</div>;
 
 const CardContent = ({ children }) => (
-  <div className="card-content">
-    {children}
-  </div>
+  <div className="card-content">{children}</div>
 );
 
 const services = [
   {
-    icon: <Baby size={40} />,
-    title: 'Atención al Recién Nacido',
-    description: 'Cuidados especializados para el bebé en sus primeras semanas de vida.'
-  },
-  {
-    icon: <HeartPulse size={40} />,
-    title: 'Control Prenatal',
-    description: 'Seguimiento integral del embarazo para garantizar la salud de la madre y el bebé.'
-  },
-  {
-    icon: <Scroll size={40} />,
-    title: 'Educación Prenatal',
-    description: 'Clases y talleres para preparar a los futuros padres para el parto y la crianza.'
-  },
-  {
     icon: <Stethoscope size={40} />,
-    title: 'Atención Posparto',
-    description: 'Cuidado y apoyo para la madre durante el período de recuperación después del parto.'
-  },
-  {
-    icon: <Milk size={40} />,
-    title: 'Asesoría en Lactancia',
-    description: 'Orientación y apoyo para una lactancia exitosa y cómoda.'
+    title: "Consulta Ginecológica",
+    description:
+      "Examen integral para detectar y prevenir problemas relacionados con la menstruación, anticoncepción, infecciones, fertilidad y menopausia.",
   },
   {
     icon: <Calendar size={40} />,
-    title: 'Planificación Familiar',
-    description: 'Asesoramiento sobre métodos anticonceptivos y planificación de embarazos.'
-  }
+    title: "Planificación Familiar",
+    description:
+      "Asesoramiento sobre métodos anticonceptivos y planificación de embarazos.",
+  },
+  {
+    icon: <BookHeart size={40} />,
+    title: "Educación Prenatal",
+    description:
+      "Clases y talleres para preparar a los futuros padres para el parto y la crianza.",
+  },
+  {
+    icon: <Flower size={40} />,
+    title: "Atención Posparto",
+    description:
+      "Cuidado y apoyo para la madre durante el período de recuperación después del parto.",
+  },
+  {
+    icon: <Baby size={40} />,
+    title: "Atención al Recién Nacido",
+    description:
+      "Cuidados especializados para el bebé en sus primeras semanas de vida.",
+  },
+  {
+    icon: <Droplets size={40} />,
+    title: "Asesoría en Lactancia",
+    description: "Orientación y apoyo para una lactancia exitosa y cómoda.",
+  },
 ];
 
 const Services = () => {
   const [selectedService, setSelectedService] = useState(null);
 
+  const cardAnimation = useSpring({
+    opacity: selectedService ? 1 : 0,
+    transform: selectedService ? "translateY(0)" : "translateY(20px)",
+  });
+
   return (
     <section className="services-section">
       <div className="container">
-        <h2 className="section-title">Nuestros Servicios</h2>
+        <h2 className="section-title">Mis Servicios</h2>
         <div className="services-container">
           {services.map((service, index) => (
-            <div 
-              key={index} 
-              className="service-icon"
-              onClick={() => setSelectedService(service)}
-            >
-              <div className="icon-background">
-                {service.icon}
+            <AnimatedIcon key={index} index={index}>
+              <div
+                className="service-icon"
+                onClick={() => setSelectedService(service)}
+                onKeyPress={(e) =>
+                  e.key === "Enter" && setSelectedService(service)
+                }
+                tabIndex={0}
+                role="button"
+                aria-label={`Ver detalles de ${service.title}`}
+              >
+                <div className="icon-background">{service.icon}</div>
+                <p className="service-title">{service.title}</p>
               </div>
-            </div>
+            </AnimatedIcon>
           ))}
         </div>
-        {selectedService && (
-          <Card>
-            <CardContent>
-              <div className="selected-service-header">
-                <div className="selected-service-icon">
-                  {selectedService.icon}
+        <animated.div style={cardAnimation}>
+          {selectedService && (
+            <Card>
+              <CardContent>
+                <div className="selected-service-header">
+                  <div className="selected-service-icon">
+                    {selectedService.icon}
+                  </div>
+                  <h3 className="selected-service-title">
+                    {selectedService.title}
+                  </h3>
                 </div>
-                <h3 className="selected-service-title">{selectedService.title}</h3>
-              </div>
-              <p className="selected-service-description">{selectedService.description}</p>
-            </CardContent>
-          </Card>
-        )}
+                <p className="selected-service-description">
+                  {selectedService.description}
+                </p>
+              </CardContent>
+            </Card>
+          )}
+        </animated.div>
       </div>
     </section>
   );
 };
 
-export  { Services };
+export { Services };

@@ -1,5 +1,5 @@
 .info-section {
-  padding: 2rem;
+  padding: 4rem 2rem;
   background-color: #FFB7B2;
   display: flex;
   flex-direction: column;
@@ -9,7 +9,7 @@
 .info-title {
   font-size: 3rem;
   margin-bottom: 2rem;
-  color:  whitesmoke;
+  color: whitesmoke;
   text-align: center;
   width: 100%;
 }
@@ -19,6 +19,7 @@
   justify-content: center;
   width: 100%;
   max-width: 1200px;
+  margin-bottom: 3rem;
 }
 
 .info-text {
@@ -33,6 +34,46 @@
   line-height: 1.6;
 }
 
+.testimonials-title {
+  font-size: 2.5rem;
+  color: whitesmoke;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.testimonials-slider {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.testimonial {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.testimonial p {
+  font-size: 1.2rem;
+  color: whitesmoke;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.testimonial h4 {
+  font-size: 1rem;
+  color: whitesmoke;
+}
+
+.slick-dots li button:before {
+  color: whitesmoke;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: whitesmoke;
+}
+
 @media (max-width: 768px) {
   .info-title {
     font-size: 2.5rem;
@@ -40,5 +81,13 @@
 
   .info-paragraph {
     font-size: 1.1rem;
+  }
+
+  .testimonials-title {
+    font-size: 2rem;
+  }
+
+  .testimonial p {
+    font-size: 1rem;
   }
 }

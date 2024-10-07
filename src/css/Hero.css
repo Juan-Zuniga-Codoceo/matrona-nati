@@ -1,33 +1,28 @@
 .hero {
-    background-color: #FFD1DC;
-    background-image: linear-gradient(to bottom right, #FFD1DC, #FFC0CB);
-    color: #4A0E4E;
-    text-align: center;
-    padding: 100px 20px;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('https://cdn.pixabay.com/photo/2024/07/26/11/27/leaves-8923309_1280.png');
-    background-size: cover;
-    background-position: center;
-    opacity: 0.15;
-    z-index: 1;
-  }
-  
-  .hero-content {
-    position: relative;
-    z-index: 2;
-    max-width: 800px;
-    margin: 0 auto;
-  }
+  color: #4A0E4E;
+  text-align: center;
+  padding: 100px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: linear-gradient(to bottom right, rgba(255, 209, 220, 0.8), rgba(255, 192, 203, 0.8));
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  margin: 0 auto;
+}
   
   .hero h1 {
     font-size: 3.5rem;
